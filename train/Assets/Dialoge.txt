@@ -1,2 +1,7 @@
 Hey
+<<<<<<< HEAD
 Hey2
+=======
+Hey2
+E
+>>>>>>> master

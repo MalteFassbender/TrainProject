@@ -22,7 +22,9 @@ public class InteractableObjects : MonoBehaviour
     {
         foreach (var item in player.GetComponent<Player>().nearTileList)
         {
+
             if (this == item.GetComponent<Tile>().occupiedObject)
+            if (this == item)
             {
                 return true;
             }
@@ -42,7 +44,9 @@ public class InteractableObjects : MonoBehaviour
                 GetInteractionType();
             }
         }
+
     }
+
     void OnMouseExit()
     {
         text.SetActive(false);

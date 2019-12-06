@@ -15,7 +15,6 @@ public class HotbarMenu : MonoBehaviour
     public static bool button9 = false;
     public static bool button10 = false;
 
-
     public void HotbarButton1()
     {
         if (!button1)
