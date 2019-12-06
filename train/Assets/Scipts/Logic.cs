@@ -52,7 +52,7 @@ public class Logic : MonoBehaviour
 
 
     //----------global stuff-----------//
-    bool rightClik;
+    bool rightClik = false;
     //---------------------------------//
 
 
@@ -72,8 +72,11 @@ public class Logic : MonoBehaviour
 
     void Update()
     {
+        if (!SwitchPlayer.playerMenuIsActive && !EscapeMenu.escapeMenuIsActive)
+        {
+            MovePlayer();
+        }
         rightClik = Input.GetMouseButtonDown(1);
-        MovePlayer();
     }
 
     void CeateMap(int waggons)

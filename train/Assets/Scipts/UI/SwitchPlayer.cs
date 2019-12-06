@@ -5,7 +5,7 @@ public class SwitchPlayer : MonoBehaviour
 {
     public GameObject playerMenu;
     public GameObject hotbarPanel;
-    bool playerMenuIsActive = false;
+    public static bool playerMenuIsActive = false;
     void Update()
     {
         PlayerMenuActivation();
@@ -14,7 +14,7 @@ public class SwitchPlayer : MonoBehaviour
     {
         if (!playerMenuIsActive)
         {
-            if (Input.GetKeyDown(KeyCode.LeftAlt))
+            if (Input.GetKeyDown(KeyCode.LeftAlt) && !EscapeMenu.escapeMenuIsActive)
             {
                 hotbarPanel.SetActive(false);
                 playerMenu.SetActive(true);

@@ -26,7 +26,7 @@ public class Tile : MonoBehaviour {
 
     void OnMouseOver()
     {
-        if (!isOccupied && waggonNumber == player.GetComponent<Player>().playerCurrentWaggon)
+        if (!isOccupied && waggonNumber == player.GetComponent<Player>().playerCurrentWaggon && !SwitchPlayer.playerMenuIsActive && !EscapeMenu.escapeMenuIsActive)
         {
             this.GetComponent<Renderer>().material = tileHover;
         }

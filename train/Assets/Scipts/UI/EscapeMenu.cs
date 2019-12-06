@@ -5,16 +5,16 @@ public class EscapeMenu : MonoBehaviour
 {
     public GameObject escapeMenu;
     public GameObject hotbarPanel;
-    bool escapeMenuIsActive = false;
-	void Update()
+    public static bool escapeMenuIsActive = false;
+    void Update()
     {
         EscapeMenuActivation();
-	}
+    }
     void EscapeMenuActivation()
     {
         if (!escapeMenuIsActive)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) && !SwitchPlayer.playerMenuIsActive)
             {
                 hotbarPanel.SetActive(false);
                 escapeMenu.SetActive(true);
