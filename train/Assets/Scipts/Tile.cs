@@ -16,6 +16,8 @@ public class Tile : MonoBehaviour {
     public Material tileTexture;
     GameObject player;
 
+    public GameObject occupiedObject;
+
 
     private void Start()
     {

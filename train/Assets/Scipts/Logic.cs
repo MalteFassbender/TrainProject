@@ -33,6 +33,8 @@ public class Logic : MonoBehaviour
 
 
     //----------player stuff-----------//
+    public int activeChar;
+     
     public GameObject player;
 
     GameObject playerSpawnTile;

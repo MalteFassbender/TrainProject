@@ -32,7 +32,6 @@ public class Player : MonoBehaviour
         LookAtMouse();
         CameraController();
         GetNearTiles();
-        ColorNearTiles();
     }
 
     void LookAtMouse()
@@ -54,18 +53,6 @@ public class Player : MonoBehaviour
         characterCamera.transform.position = cameraPos;
 
 
-    }
-
-    void ColorNearTiles()
-    {
-        foreach (var item in nearTileList)
-        {
-            if (item)
-            {
-                item.GetComponent<Renderer>().material.color = Color.black;
-
-            }
-        }
     }
 
     void GetNearTiles()
@@ -115,5 +102,18 @@ public class Player : MonoBehaviour
             return true;
         }
         return false;
+    }
+    
+
+    void Astar()
+    {
+
+
+
+    }
+
+    void Pathfinding()
+    {
+        
     }
 }
