@@ -16,6 +16,7 @@ public class PlayerLogic : MonoBehaviour
     int coroutine = 1;
     float triggerDistance = 0.1f;
     float distance = 0f;
+    public static bool isMoving = false;
 
 
 
@@ -51,29 +52,33 @@ public class PlayerLogic : MonoBehaviour
     {
         if (Global.rightClik)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            int raylenght = 2000;
-            Debug.DrawRay(ray.origin, ray.direction, Color.green);
-
-            if (Physics.Raycast(ray, out hit, raylenght))
+            if (!isMoving)
             {
-                if (hit.transform.gameObject.name.Contains("Tile"))
-                {
 
-                    bool fieldIsOccupied = hit.transform.gameObject.GetComponent<Tile>().isOccupied;
-                    isSameWaggon = hit.transform.gameObject.GetComponent<Tile>().waggonNumber == currentPlayer.GetComponent<Player>().playerCurrentWaggon;
-                    if (!fieldIsOccupied && isSameWaggon)
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                int raylenght = 2000;
+                Debug.DrawRay(ray.origin, ray.direction, Color.green);
+
+                if (Physics.Raycast(ray, out hit, raylenght))
+                if (Physics.Raycast(ray, out hit, raylenght))
+                {
+                    if (hit.transform.gameObject.name.Contains("Tile"))
                     {
-                        List<Vector3> path = CreatePathOnGrid(currentPlayer.GetComponent<Player>().playerCurrentTile, hit.transform.gameObject);
-                        if (path != null)
+                        bool fieldIsOccupied = hit.transform.gameObject.GetComponent<Tile>().isOccupied;
+                        isSameWaggon = hit.transform.gameObject.GetComponent<Tile>().waggonNumber == currentPlayer.GetComponent<Player>().playerCurrentWaggon;
+                        if (!fieldIsOccupied && isSameWaggon)
                         {
-                            StartCoroutine(RunPath(path, currentPlayer));
+                            List<Vector3> path = CreatePathOnGrid(currentPlayer.GetComponent<Player>().playerCurrentTile, hit.transform.gameObject);
+                            if (path != null)
+                            {
+                                StartCoroutine(RunPath(path, currentPlayer));
+                            }
                         }
                     }
                 }
-            }
 
+            }
         }
     }
 
@@ -174,6 +179,7 @@ public class PlayerLogic : MonoBehaviour
             {
                 break;
             }
+            addTile.GetComponent<Renderer>().material = tileSelected;
             Vector3 adjustedPos = new Vector3(addTile.transform.position.x, 1, addTile.transform.position.z);
             path.Add(adjustedPos);
             addTile = addTile.GetComponent<Tile>().predecessor;
@@ -189,6 +195,7 @@ public class PlayerLogic : MonoBehaviour
         Vector3 start = path[0];
         while (coroutine < path.Count)
         {
+            isMoving = true;
             currentPlayer.transform.LookAt(path[coroutine]);
             distance += Time.deltaTime / Vector3.Distance(currentPlayer.transform.position, path[coroutine]);
             currentPlayer.transform.position = Vector3.Lerp(start, path[coroutine], Mathf.SmoothStep(0.0f, 1.0f, distance));
@@ -210,6 +217,7 @@ public class PlayerLogic : MonoBehaviour
             yield return null;
         }
         Debug.Log("Coroutine abgearbeitet");
+        isMoving = false;
         coroutine = 0;
         path.Clear();
     }

@@ -20,9 +20,12 @@ public class Tile : MonoBehaviour {
     public Material tileTexture;
     public GameObject occupiedObject;
 
-    void OnMouseOver()
+    public Material currentMaterial;
+
+    void OnMouseEnter()
     {
-        if (!isOccupied && waggonNumber == PlayerLogic.currentPlayer.GetComponent<Player>().playerCurrentWaggon && !SwitchPlayer.playerMenuIsActive && !EscapeMenu.escapeMenuIsActive)
+        currentMaterial = this.GetComponent<Renderer>().material;
+        if (!isOccupied && waggonNumber == PlayerLogic.currentPlayer.GetComponent<Player>().playerCurrentWaggon && !SwitchPlayer.playerMenuIsActive && !EscapeMenu.escapeMenuIsActive && !PlayerLogic.isMoving)
         {
             this.GetComponent<Renderer>().material = tileHover;
         }
@@ -30,7 +33,7 @@ public class Tile : MonoBehaviour {
 
     void OnMouseExit()
     {
-        if (!isOccupied)
+        if (!isOccupied && !PlayerLogic.isMoving)
         {
             this.GetComponent<Renderer>().material = tileTexture;
         }

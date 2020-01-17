@@ -41,7 +41,11 @@ public class InteractableObjects : MonoBehaviour
 
     void OnMouseOver()
     {
-        this.gameObject.GetComponent<Renderer>().material.color = Color.green;
+        if (!PlayerLogic.isMoving)
+        {
+
+            this.gameObject.GetComponent<Renderer>().material.color = Color.green;
+        }
         if (IsNearPlayer())
         {
             text.SetActive(true);
