@@ -39,6 +39,7 @@ public class PlayerLogic : MonoBehaviour
             MovePlayer(currentPlayer);
         }
         CameraController();
+
     }
 
     void SetCurrentPlayer(int currentSelectedChar)
@@ -61,22 +62,22 @@ public class PlayerLogic : MonoBehaviour
                 Debug.DrawRay(ray.origin, ray.direction, Color.green);
 
                 if (Physics.Raycast(ray, out hit, raylenght))
-                if (Physics.Raycast(ray, out hit, raylenght))
-                {
-                    if (hit.transform.gameObject.name.Contains("Tile"))
+                    if (Physics.Raycast(ray, out hit, raylenght))
                     {
-                        bool fieldIsOccupied = hit.transform.gameObject.GetComponent<Tile>().isOccupied;
-                        isSameWaggon = hit.transform.gameObject.GetComponent<Tile>().waggonNumber == currentPlayer.GetComponent<Player>().playerCurrentWaggon;
-                        if (!fieldIsOccupied && isSameWaggon)
+                        if (hit.transform.gameObject.name.Contains("Tile"))
                         {
-                            List<Vector3> path = CreatePathOnGrid(currentPlayer.GetComponent<Player>().playerCurrentTile, hit.transform.gameObject);
-                            if (path != null)
+                            bool fieldIsOccupied = hit.transform.gameObject.GetComponent<Tile>().isOccupied;
+                            isSameWaggon = hit.transform.gameObject.GetComponent<Tile>().waggonNumber == currentPlayer.GetComponent<Player>().playerCurrentWaggon;
+                            if (!fieldIsOccupied && isSameWaggon)
                             {
-                                StartCoroutine(RunPath(path, currentPlayer));
+                                List<Vector3> path = CreatePathOnGrid(currentPlayer.GetComponent<Player>().playerCurrentTile, hit.transform.gameObject);
+                                if (path != null)
+                                {
+                                    StartCoroutine(RunPath(path, currentPlayer));
+                                }
                             }
                         }
                     }
-                }
 
             }
         }
@@ -151,21 +152,25 @@ public class PlayerLogic : MonoBehaviour
             {
                 if (item != null)
                 {
+                    if (!item.GetComponent<Tile>().isOccupied)
+                    {
 
-                    if (searchedTiles.Contains(item))
-                    {
-                        continue;
-                    }
-                    int thisStepCost = toCheck.GetComponent<Tile>().fromCost + Distance(toCheck, item);
-                    if (!toSearchTiles.Contains(item) || thisStepCost < item.GetComponent<Tile>().fromCost)
-                    {
-                        item.GetComponent<Tile>().predecessor = toCheck;
-                        item.GetComponent<Tile>().fromCost = item.GetComponent<Tile>().predecessor.GetComponent<Tile>().fromCost + Distance(item, item.GetComponent<Tile>().predecessor);
-                        item.GetComponent<Tile>().toCost = Distance(item, target);
-                        item.GetComponent<Tile>().sumCost = item.GetComponent<Tile>().fromCost + item.GetComponent<Tile>().toCost;
-                        if (!toSearchTiles.Contains(item))
+
+                        if (searchedTiles.Contains(item))
                         {
-                            toSearchTiles.Add(item);
+                            continue;
+                        }
+                        int thisStepCost = toCheck.GetComponent<Tile>().fromCost + Distance(toCheck, item);
+                        if (!toSearchTiles.Contains(item) || thisStepCost < item.GetComponent<Tile>().fromCost)
+                        {
+                            item.GetComponent<Tile>().predecessor = toCheck;
+                            item.GetComponent<Tile>().fromCost = item.GetComponent<Tile>().predecessor.GetComponent<Tile>().fromCost + Distance(item, item.GetComponent<Tile>().predecessor);
+                            item.GetComponent<Tile>().toCost = Distance(item, target);
+                            item.GetComponent<Tile>().sumCost = item.GetComponent<Tile>().fromCost + item.GetComponent<Tile>().toCost;
+                            if (!toSearchTiles.Contains(item))
+                            {
+                                toSearchTiles.Add(item);
+                            }
                         }
                     }
                 }
@@ -203,7 +208,7 @@ public class PlayerLogic : MonoBehaviour
             if (Vector3.Distance(currentPlayer.transform.position, path[coroutine]) < triggerDistance)
             {
                 //set tile states etc
-                GameObject nextTile = Map.Vector3ToTile(path[coroutine], currentPlayer.GetComponent<Player>().playerCurrentWaggon);
+                GameObject nextTile = Map.Vector3ToTile(currentPlayer.GetComponent<Player>().playerCurrentWaggon, (int)path[coroutine].x, (int)path[coroutine].z);
                 currentPlayer.GetComponent<Player>().playerCurrentTile.GetComponent<Tile>().isOccupied = false;
                 currentPlayer.GetComponent<Player>().playerCurrentTile.GetComponent<Renderer>().material = tileTexture;
                 nextTile.GetComponent<Tile>().isOccupied = true;

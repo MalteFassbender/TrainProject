@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class Logic : MonoBehaviour
 {
@@ -60,6 +61,7 @@ public class Logic : MonoBehaviour
     void SaveGameToJson()
     {
         bool test = false;
+        string path;
         if (test)
         {
             int i = 0;
@@ -80,7 +82,11 @@ public class Logic : MonoBehaviour
 
             SaveGame saveObject = new SaveGame();
             saveObject.SetValues(currentTile, currentplayer, interactedStates);
-            JsonUtility.ToJson(saveObject);
+            path = Application.dataPath + "/save.json";
+            if (File.Exists(path))
+            {
+                File.WriteAllText(path, JsonUtility.ToJson(saveObject));
+            }
         }
     }
 }
@@ -98,9 +104,4 @@ public class SaveGame
         this.interactedStates = _interactedStates;
     }
 
-}
-
-public class SaveMap
-{
-    //WIP
 }

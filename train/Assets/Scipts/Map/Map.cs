@@ -28,6 +28,7 @@ public class Map : MonoBehaviour
 
 
 
+
     void Start()
     { 
         tileArray = new GameObject[waggonCount, waggonSizeX + 1, waggonSizeY + 1];
@@ -80,7 +81,6 @@ public class Map : MonoBehaviour
             PlayerLogic.charList[i].GetComponent<Player>().playerCurrentWaggon = i;
             i++;
         }
-
     }
     #endregion 
 
@@ -90,8 +90,17 @@ public class Map : MonoBehaviour
         PlayerLogic.PrefabCharList.Add(char2);
     }
 
-    public static GameObject Vector3ToTile(Vector3 _pos, int waggon)
+    public static GameObject Vector3ToTile(int waggon, int tileArrayPosX, int tileArrayPosY)
     {
-        return tileArray[waggon, (int)_pos.x, (int)_pos.z];
+        if (waggon > 0)
+        {
+
+            int adjustedArrayPosY = tileArrayPosY - (waggon * waggonSizeY) - 1;
+            return tileArray[waggon, tileArrayPosX, adjustedArrayPosY];
+        }
+        else
+        {
+            return tileArray[waggon, tileArrayPosX, tileArrayPosY];
+        }
     }
 }

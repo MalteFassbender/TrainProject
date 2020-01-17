@@ -9,6 +9,7 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Start");
         DontDestroy.CurrentGamestate = Gamestate.ingame;
+
     }
     public void CreditsButton()
     {
