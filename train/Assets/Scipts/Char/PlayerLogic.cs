@@ -86,6 +86,8 @@ public class PlayerLogic : MonoBehaviour
     #endregion
 
     #region Pathfinding
+
+    //Neuhaus
     public static int Distance(GameObject start, GameObject end)
     {
         float dist = 0;
@@ -103,6 +105,7 @@ public class PlayerLogic : MonoBehaviour
         return (int)dist;
     }
 
+    //Neuhaus
     public List<Vector3> CreatePathOnGrid(GameObject start, GameObject target)
     {
         int maxSteps = 250;

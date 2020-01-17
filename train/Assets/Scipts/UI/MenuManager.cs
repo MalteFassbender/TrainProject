@@ -8,13 +8,16 @@ public class MenuManager : MonoBehaviour
     public void StartButton()
     {
         SceneManager.LoadScene("Start");
+        DontDestroy.CurrentGamestate = Gamestate.ingame;
     }
     public void CreditsButton()
     {
         SceneManager.LoadScene("Credits");
+        DontDestroy.CurrentGamestate = Gamestate.credits;
     }
     public void MainMenuButton()
     {
         SceneManager.LoadScene("Main Menu");
+        DontDestroy.CurrentGamestate = Gamestate.mainMenu;
     }
 }

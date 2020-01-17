@@ -12,6 +12,7 @@ public class Logic : MonoBehaviour
 
     void Update()
     {
+        SaveGameToJson();
     }
     
     public static List<GameObject> getNearTiles(GameObject tile)
@@ -55,4 +56,51 @@ public class Logic : MonoBehaviour
         }
         return returnList;
     }
+
+    void SaveGameToJson()
+    {
+        bool test = false;
+        if (test)
+        {
+            int i = 0;
+            Vector3Int[] currentTile = new Vector3Int[PlayerLogic.charList.Count];
+            int currentplayer;
+            bool[] interactedStates = new bool[Global.interactionTypeList.Count];
+
+            foreach (var item in PlayerLogic.charList)
+            {
+                int waggonNumber = item.GetComponent<Player>().playerCurrentTile.GetComponent<Tile>().waggonNumber;
+                int tileArrayPosX = item.GetComponent<Player>().playerCurrentTile.GetComponent<Tile>().tileArrayPosX;
+                int tileArrayPosY = item.GetComponent<Player>().playerCurrentTile.GetComponent<Tile>().tileArrayPosY;
+                Vector3Int returnValue = new Vector3Int(waggonNumber, tileArrayPosX, tileArrayPosY);
+                currentTile[i] = returnValue;
+                i++;
+            }
+            currentplayer = PlayerLogic.currentSelectedChar;
+
+            SaveGame saveObject = new SaveGame();
+            saveObject.SetValues(currentTile, currentplayer, interactedStates);
+            JsonUtility.ToJson(saveObject);
+        }
+    }
+}
+
+public class SaveGame
+{
+    Vector3Int[] currentTile;
+    int currentplayer;
+    bool[] interactedStates;
+
+    public void SetValues(Vector3Int[] _currentTile, int _currentplayer, bool[] _interactedStates)
+    {
+        this.currentTile = _currentTile;
+        this.currentplayer = _currentplayer;
+        this.interactedStates = _interactedStates;
+    }
+
+}
+
+public class SaveMap
+{
+    //WIP
 }
