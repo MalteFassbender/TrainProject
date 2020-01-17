@@ -5,6 +5,11 @@ using UnityEngine;
 public class Tile : MonoBehaviour {
     public bool isOccupied = false;
     public bool isInteractable = false;
+    public int fromCost;
+    public int toCost;
+    public int sumCost;
+    public GameObject predecessor;
+
 
     public int ID;
     public int waggonNumber;

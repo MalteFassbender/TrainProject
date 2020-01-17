@@ -22,6 +22,7 @@ public class Map : MonoBehaviour
     public static int waggonSizeY = 20;
     int tileID = 0;
 
+    //char stuffs
     public GameObject char1;
     public GameObject char2;
 
@@ -37,8 +38,9 @@ public class Map : MonoBehaviour
         tileArray[0, 2, 5].GetComponent<Tile>().isOccupied = true;
         tileArray[0, 2, 5].GetComponent<Tile>().occupiedObject = interactGO;
     }
-	
 
+
+    #region map
     void CeateMap(int waggons)
     {
         for (int k = 0; k < waggons; k++)
@@ -70,6 +72,7 @@ public class Map : MonoBehaviour
         foreach (var item in PlayerLogic.PrefabCharList)
         {
             Vector3 playerPos = tileArray[i, 1, 1].transform.position;
+            tileArray[i, 1, 1].GetComponent<Renderer>().material = tileSelected;
             playerPos.y = playerPos.y + 1;
             PlayerLogic.PrefabCharList[i].GetComponent<Player>().playerCurrentTile = tileArray[i, 1, 1];
             item.GetComponent<Player>().playerCurrentWaggon = i;
@@ -79,10 +82,16 @@ public class Map : MonoBehaviour
         }
 
     }
+    #endregion 
 
     void AddPlayersToList()
     {
         PlayerLogic.PrefabCharList.Add(char1);
         PlayerLogic.PrefabCharList.Add(char2);
+    }
+
+    public static GameObject Vector3ToTile(Vector3 _pos, int waggon)
+    {
+        return tileArray[waggon, (int)_pos.x, (int)_pos.z];
     }
 }
