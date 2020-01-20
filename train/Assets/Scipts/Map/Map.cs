@@ -30,7 +30,7 @@ public class Map : MonoBehaviour
 
 
     void Start()
-    { 
+    {
         tileArray = new GameObject[waggonCount, waggonSizeX + 1, waggonSizeY + 1];
         CeateMap(waggonCount);
         AddPlayersToList();
@@ -52,7 +52,7 @@ public class Map : MonoBehaviour
                 {
                     int trainSpacing = (waggonSizeY + 1) * k;
 
-                    tileArray[k, i, j] = Instantiate(Tile, new Vector3(i, 0, trainSpacing + j), Quaternion.identity);     
+                    tileArray[k, i, j] = Instantiate(Tile, new Vector3(i, 0, trainSpacing + j), Quaternion.identity);
                     tileArray[k, i, j].GetComponent<Tile>().ID = tileID;
                     tileArray[k, i, j].GetComponent<Tile>().isOccupied = false;
                     tileArray[k, i, j].GetComponent<Tile>().isInteractable = false;
@@ -60,7 +60,7 @@ public class Map : MonoBehaviour
                     tileArray[k, i, j].GetComponent<Tile>().waggonNumber = k;
                     tileArray[k, i, j].GetComponent<Tile>().tileArrayPosX = i;
                     tileArray[k, i, j].GetComponent<Tile>().tileArrayPosY = j;
-                    tileArray[k, i, j].GetComponent<Renderer>().material = tileTexture; 
+                    tileArray[k, i, j].GetComponent<Renderer>().material = tileTexture;
 
                 }
             }
@@ -92,15 +92,7 @@ public class Map : MonoBehaviour
 
     public static GameObject Vector3ToTile(int waggon, int tileArrayPosX, int tileArrayPosY)
     {
-        if (waggon > 0)
-        {
-
-            int adjustedArrayPosY = tileArrayPosY - (waggon * waggonSizeY) - 1;
-            return tileArray[waggon, tileArrayPosX, adjustedArrayPosY];
-        }
-        else
-        {
-            return tileArray[waggon, tileArrayPosX, tileArrayPosY];
-        }
+        int adjustedArrayPosY = tileArrayPosY - (waggon * waggonSizeY) - (1 * waggon);
+        return tileArray[waggon, tileArrayPosX, adjustedArrayPosY];
     }
 }

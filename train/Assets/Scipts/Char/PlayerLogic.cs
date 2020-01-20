@@ -25,6 +25,11 @@ public class PlayerLogic : MonoBehaviour
     // camera stuff //
     public Camera characterCamera;
     float cameraDistance = -11.07f;
+    //shake
+    public float shakeDuration = 0f;
+    public float shakeAmount = 0.7f;
+    public float decreaseFactor = 1.0f;
+    Vector3 originalPos;
 
     void Start()
     {
@@ -37,6 +42,10 @@ public class PlayerLogic : MonoBehaviour
         if (!SwitchPlayer.playerMenuIsActive && !EscapeMenu.escapeMenuIsActive)
         {
             MovePlayer(currentPlayer);
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            shakeDuration = 1;
         }
         CameraController();
 
@@ -85,8 +94,18 @@ public class PlayerLogic : MonoBehaviour
 
     void CameraController()
     {
-        Vector3 cameraPos = new Vector3(cameraDistance, currentPlayer.transform.position.y + 7, currentPlayer.transform.position.z);
-        characterCamera.transform.position = cameraPos;
+        //https://gist.github.com/ftvs/5822103
+        originalPos = new Vector3(cameraDistance, currentPlayer.transform.position.y + 7, currentPlayer.transform.position.z);
+        if (shakeDuration > 0)
+        {
+            characterCamera.transform.localPosition = originalPos + UnityEngine.Random.insideUnitSphere * shakeAmount;
+            shakeDuration -= Time.deltaTime * decreaseFactor;
+        }
+        else
+        {
+            shakeDuration = 0f;
+            characterCamera.transform.localPosition = originalPos;
+        }
 
     }
     #endregion

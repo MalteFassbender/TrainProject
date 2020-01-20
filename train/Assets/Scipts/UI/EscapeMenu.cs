@@ -25,9 +25,14 @@ public class EscapeMenu : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                DontDestroy.CurrentGamestate = Gamestate.esc;
                 hotbarPanel.SetActive(true);
                 escapeMenu.SetActive(false);
                 escapeMenuIsActive = false;
+            }
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                DontDestroy.CurrentGamestate = Gamestate.ingame;
             }
         }
     }
