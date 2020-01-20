@@ -1391,7 +1391,7 @@ GameObject:
   - component: {fileID: 699231217}
   - component: {fileID: 699231221}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1476,7 +1476,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialog: {fileID: 1669950892}
-  interacted: 0
 --- !u!1 &700409009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1997,7 +1996,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialog: {fileID: 1669950892}
-  interacted: 0
 --- !u!114 &755772419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2031,6 +2029,9 @@ MonoBehaviour:
   tileSelected: {fileID: 2100000, guid: 04a06bc632fe5024088703cb1f7a54e8, type: 2}
   isSameWaggon: 0
   characterCamera: {fileID: 282840813}
+  shakeDuration: 0
+  shakeAmount: 0.7
+  decreaseFactor: 1
 --- !u!114 &755772421
 MonoBehaviour:
   m_ObjectHideFlags: 0
