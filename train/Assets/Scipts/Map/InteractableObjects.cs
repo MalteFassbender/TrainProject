@@ -72,9 +72,6 @@ public class InteractableObjects : MonoBehaviour
             if (IsNearPlayer())
             {
                 text.SetActive(true);
-                Vector3 textPossiton = this.gameObject.transform.position;
-                textPossiton.y = textPossiton.y + 1;
-                dialog.transform.position = textPossiton;
                 dialog.text = pressE;
                 if (Input.GetKey(KeyCode.E))
                 {

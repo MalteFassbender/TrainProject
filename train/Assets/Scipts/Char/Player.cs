@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-               lookTarget = hit.point;
+                lookTarget = hit.point;
             }
             head.transform.LookAt(lookTarget);
         }
@@ -42,9 +42,9 @@ public class Player : MonoBehaviour
         int currentTileArrayPosY = playerCurrentTile.GetComponent<Tile>().tileArrayPosY;
         if (currentTileArrayPosY + 1 <= Map.tileArray.GetUpperBound(2))
         {
-            nearTileList.Add(Map.tileArray[currentTileWaggon, currentTileArrayPosX, currentTileArrayPosY+1]);
+            nearTileList.Add(Map.tileArray[currentTileWaggon, currentTileArrayPosX, currentTileArrayPosY + 1]);
         }
-        if (currentTileArrayPosY -1 >= 0)
+        if (currentTileArrayPosY - 1 >= 0)
         {
             nearTileList.Add(Map.tileArray[currentTileWaggon, currentTileArrayPosX, currentTileArrayPosY - 1]);
         }
