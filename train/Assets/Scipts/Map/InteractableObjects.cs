@@ -64,10 +64,8 @@ public class InteractableObjects : MonoBehaviour
     {
         if (isObject)
         {
-
             if (!PlayerLogic.isMoving)
             {
-
                 this.gameObject.GetComponent<Renderer>().material.color = Color.green;
             }
             if (IsNearPlayer())
