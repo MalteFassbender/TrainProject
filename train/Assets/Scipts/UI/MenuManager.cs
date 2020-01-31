@@ -7,7 +7,8 @@ public class MenuManager : MonoBehaviour
 {
     public void StartButton()
     {
-        SceneManager.LoadScene("Start");
+        string path = "Scenes/";
+        SceneManager.LoadScene(path + "Start");
         DontDestroy.CurrentGamestate = Gamestate.ingame;
     }
     public void CreditsButton()

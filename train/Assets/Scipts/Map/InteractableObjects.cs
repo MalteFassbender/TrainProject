@@ -16,6 +16,7 @@ public class InteractableObjects : MonoBehaviour
     bool notFound = false;
 
 
+
     void Start()
     {
         text = GameObject.Find("Dialog");
@@ -76,6 +77,13 @@ public class InteractableObjects : MonoBehaviour
                 if (Input.GetKey(KeyCode.E))
                 {
                     Global.interacted = true;
+                    DontDestroy.newGame = false;
+                    foreach (var item in PlayerLogic.charList)
+                    {
+                        DontDestroy.PlayerTileList.Add(item.GetComponent<Player>().playerCurrentTile.transform.position);
+                        DontDestroy.playerTileArrayPosX.Add(item.GetComponent<Player>().playerCurrentTile.GetComponent<Tile>().tileArrayPosX);
+                        DontDestroy.playerTileArrayPosY.Add(item.GetComponent<Player>().playerCurrentTile.GetComponent<Tile>().tileArrayPosY);
+                    }
                     Starting();
                 }
             }

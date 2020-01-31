@@ -47,6 +47,5 @@ public class GameControl : MonoBehaviour {
     {
          SceneManager.LoadScene("Start");
          PlayerLogic.charList.Clear();
-         Global.interactionTypeList.Clear();
     }
 }
