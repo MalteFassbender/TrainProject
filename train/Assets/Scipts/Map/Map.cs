@@ -71,18 +71,49 @@ public class Map : MonoBehaviour
 
     void SpawnPlayers()
     {
-        int i = 0;
-        foreach (var item in PlayerLogic.PrefabCharList)
+        if (DontDestroy.newGame)
         {
-            Vector3 playerPos = tileArray[i, 6, 3].transform.position;
-            tileArray[i, 6, 3].GetComponent<Renderer>().material = tileSelected;
-            playerPos.y = playerPos.y + 1;
-            PlayerLogic.PrefabCharList[i].GetComponent<Player>().playerCurrentTile = tileArray[i, 6, 3];
-            item.GetComponent<Player>().playerCurrentWaggon = i;
-            PlayerLogic.charList.Add(Instantiate(item.transform.gameObject, playerPos, Quaternion.identity));
-            PlayerLogic.charList[i].GetComponent<Player>().playerCurrentWaggon = i;
-            i++;
+            int i = 0;
+            foreach (var item in PlayerLogic.PrefabCharList)
+            {
+                Vector3 playerPos = tileArray[i, 6, 3].transform.position;
+                tileArray[i, 6, 3].GetComponent<Renderer>().material = tileSelected;
+                playerPos.y = playerPos.y + 1;
+                PlayerLogic.PrefabCharList[i].GetComponent<Player>().playerCurrentTile = tileArray[i, 6, 3];
+                item.GetComponent<Player>().playerCurrentWaggon = i;
+                PlayerLogic.charList.Add(Instantiate(item.transform.gameObject, playerPos, Quaternion.identity));
+                PlayerLogic.charList[i].GetComponent<Player>().playerCurrentWaggon = i;
+                i++;
+            }
         }
+        else
+        {
+            PlayerLogic.charList.Clear();
+
+            int i = 0;
+            foreach (var item in PlayerLogic.PrefabCharList)
+            {
+                if (item != null && i <= PlayerLogic.playercount)
+                {
+                    GameObject currentGo;
+                    Vector3 playerPos = DontDestroy.playerCurrentTiles[i];
+                    playerPos.y = 1;
+
+                    currentGo = Vector3ToTile(i, DontDestroy.playerTileArrayPos[i].x, DontDestroy.playerTileArrayPos[i].y);
+                    item.GetComponent<Player>().playerCurrentWaggon = i;
+
+                    PlayerLogic.charList.Add(Instantiate(item.transform.gameObject, playerPos, Quaternion.identity));
+                    PlayerLogic.charList[i].GetComponent<Player>().playerCurrentWaggon = i;
+                    currentGo.GetComponent<Tile>().occupiedObject = PlayerLogic.charList[i];
+                    currentGo.GetComponent<Tile>().isOccupied = true;
+                    currentGo.GetComponent<Renderer>().material = tileSelected;
+                    PlayerLogic.charList[i].GetComponent<Player>().playerCurrentTile = currentGo;
+                    i++;
+                }
+            }
+            DontDestroy.playerCurrentTiles.Clear();
+        }
+
     }
 
     void SpawnItems()
@@ -96,7 +127,7 @@ public class Map : MonoBehaviour
             tileArray[0, 3, 6 + i].GetComponent<Tile>().isOccupied = true;
             tileArray[0, 3, 6 + i].GetComponent<Tile>().occupiedObject = item;
             tileArray[0, 3, 6 + i].GetComponent<Renderer>().material = tileSelected;
-            i++; 
+            i++;
         }
     }
     #endregion 
@@ -109,7 +140,8 @@ public class Map : MonoBehaviour
 
     public static GameObject Vector3ToTile(int waggon, int tileArrayPosX, int tileArrayPosY)
     {
-        int adjustedArrayPosY = tileArrayPosY - (waggon * waggonSizeY) - (1 * waggon);
-        return tileArray[waggon, tileArrayPosX, adjustedArrayPosY];
+        //int adjustedArrayPosY = tileArrayPosY - (waggon * waggonSizeY) - (waggon * 1);
+        return tileArray[waggon, tileArrayPosX, tileArrayPosY];
+
     }
 }

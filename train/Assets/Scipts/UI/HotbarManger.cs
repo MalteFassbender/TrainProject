@@ -18,7 +18,11 @@ public class HotbarManger : MonoBehaviour
     {
         if (HotbarMenu.button1 == true)
         {
-            Debug.Log("1");
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                Inventory.RemoveItemFromInv(1, false);
+            }
+
         }
         if (HotbarMenu.button2 == true)
         {

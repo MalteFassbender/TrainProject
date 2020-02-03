@@ -48,15 +48,30 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public static void RemoveItemFromInv(int slot, bool destroy)
+    public static void RemoveItemFromInv(int _slot, bool destroy)
     {
-        if (destroy)
+        int slot = _slot++;
+        if (itemsInInventory.Count >= _slot)
         {
-            itemsInInventory[slot] = null;
+            if (itemsInInventory[slot] != null)
+            {
+                if (destroy)
+                {
+                    itemsInInventory[slot] = null;
+                }
+                else
+                {
+                    DropItem(itemsInInventory[slot]);
+                }
+            }
+            else
+            {
+                Debug.Log("No item at slot " + slot + ". ");
+            }
         }
         else
         {
-            DropItem(itemsInInventory[slot]);
+            Debug.Log("not enogh items");
         }
     }
 

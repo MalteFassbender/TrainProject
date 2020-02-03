@@ -81,6 +81,14 @@ public class InteractableObjects : MonoBehaviour
                 if (Input.GetKey(KeyCode.E))
                 {
                     Global.interacted = true;
+                    foreach (var item in PlayerLogic.charList)
+                    {
+                        DontDestroy.newGame = false;
+                        DontDestroy.playerCurrentTiles.Add(item.GetComponent<Player>().playerCurrentTile.transform.position);
+                        Vector2Int TileArrayPos = new Vector2Int(item.GetComponent<Player>().playerCurrentTile.GetComponent<Tile>().tileArrayPosX, item.GetComponent<Player>().playerCurrentTile.GetComponent<Tile>().tileArrayPosY);
+                        DontDestroy.playerTileArrayPos.Add(TileArrayPos);
+                        PlayerLogic.PrefabCharList.Clear();
+                    }
                     Starting();
                 }
             }
