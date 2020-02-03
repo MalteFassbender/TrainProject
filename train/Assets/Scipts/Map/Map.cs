@@ -74,10 +74,10 @@ public class Map : MonoBehaviour
         int i = 0;
         foreach (var item in PlayerLogic.PrefabCharList)
         {
-            Vector3 playerPos = tileArray[i, 1, 1].transform.position;
-            tileArray[i, 1, 1].GetComponent<Renderer>().material = tileSelected;
+            Vector3 playerPos = tileArray[i, 6, 3].transform.position;
+            tileArray[i, 6, 3].GetComponent<Renderer>().material = tileSelected;
             playerPos.y = playerPos.y + 1;
-            PlayerLogic.PrefabCharList[i].GetComponent<Player>().playerCurrentTile = tileArray[i, 1, 1];
+            PlayerLogic.PrefabCharList[i].GetComponent<Player>().playerCurrentTile = tileArray[i, 6, 3];
             item.GetComponent<Player>().playerCurrentWaggon = i;
             PlayerLogic.charList.Add(Instantiate(item.transform.gameObject, playerPos, Quaternion.identity));
             PlayerLogic.charList[i].GetComponent<Player>().playerCurrentWaggon = i;
