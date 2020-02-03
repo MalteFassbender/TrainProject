@@ -14,7 +14,7 @@ public class InteractableObjects : MonoBehaviour
     bool isObject = false;
     bool isDoor = false;
     bool notFound = false;
-
+    bool isItem = false;
 
 
     void Start()
@@ -32,6 +32,10 @@ public class InteractableObjects : MonoBehaviour
         if (this.gameObject.name.Contains("Object"))
         {
             isObject = true;
+        }
+        if (this.gameObject.name.Contains("item"))
+        {
+            isItem = true;
         }
         else
         {
@@ -64,8 +68,10 @@ public class InteractableObjects : MonoBehaviour
     {
         if (isObject)
         {
+
             if (!PlayerLogic.isMoving)
             {
+
                 this.gameObject.GetComponent<Renderer>().material.color = Color.green;
             }
             if (IsNearPlayer())
@@ -75,14 +81,25 @@ public class InteractableObjects : MonoBehaviour
                 if (Input.GetKey(KeyCode.E))
                 {
                     Global.interacted = true;
-                    DontDestroy.newGame = false;
-                    foreach (var item in PlayerLogic.charList)
-                    {
-                        DontDestroy.PlayerTileList.Add(item.GetComponent<Player>().playerCurrentTile.transform.position);
-                        DontDestroy.playerTileArrayPosX.Add(item.GetComponent<Player>().playerCurrentTile.GetComponent<Tile>().tileArrayPosX);
-                        DontDestroy.playerTileArrayPosY.Add(item.GetComponent<Player>().playerCurrentTile.GetComponent<Tile>().tileArrayPosY);
-                    }
                     Starting();
+                }
+            }
+        }
+
+        if (isItem)
+        {
+
+            if (!PlayerLogic.isMoving)
+            {
+                this.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                //glow or somethin
+            }
+            if (IsNearPlayer())
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    Inventory.AddItemToInv(this.gameObject.GetComponent<Item>());
+                    Destroy(this.gameObject);
                 }
             }
         }
@@ -99,6 +116,10 @@ public class InteractableObjects : MonoBehaviour
         {
             this.gameObject.GetComponent<Renderer>().material.color = Color.white;
             text.SetActive(false);
+        }
+        if (isItem)
+        {
+            this.gameObject.GetComponent<Renderer>().material.color = Color.white;
         }
     }
 

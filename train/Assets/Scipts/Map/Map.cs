@@ -5,8 +5,8 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
     //interactable object placeholder
-    public List<GameObject> interactObjects = new List<GameObject>();
-    public GameObject test;
+    public GameObject interactGO;
+    List<GameObject> items = new List<GameObject>();
 
 
     // train stuff //
@@ -36,7 +36,10 @@ public class Map : MonoBehaviour
         CeateMap(waggonCount);
         AddPlayersToList();
         SpawnPlayers();
-        SpawnInteractables();
+        interactGO.transform.position = tileArray[0, 2, 5].transform.position;
+        tileArray[0, 2, 5].GetComponent<Tile>().isOccupied = true;
+        tileArray[0, 2, 5].GetComponent<Tile>().occupiedObject = interactGO;
+        SpawnItems();
     }
 
 
@@ -68,54 +71,32 @@ public class Map : MonoBehaviour
 
     void SpawnPlayers()
     {
-        Debug.Log(DontDestroy.newGame);
-        if (DontDestroy.newGame)
+        int i = 0;
+        foreach (var item in PlayerLogic.PrefabCharList)
         {
-            int i = 0;
-            foreach (var item in PlayerLogic.PrefabCharList)
-            {
-                Vector3 playerPos = tileArray[i, 1, 1].transform.position;
-                tileArray[i, 1, 1].GetComponent<Renderer>().material = tileSelected;
-                playerPos.y = playerPos.y + 1;
-                PlayerLogic.PrefabCharList[i].GetComponent<Player>().playerCurrentTile = tileArray[i, 1, 1];
-                item.GetComponent<Player>().playerCurrentWaggon = i;
-                PlayerLogic.charList.Add(Instantiate(item.transform.gameObject, playerPos, Quaternion.identity));
-                PlayerLogic.charList[i].GetComponent<Player>().playerCurrentWaggon = i;
-                i++;
-            }
+            Vector3 playerPos = tileArray[i, 1, 1].transform.position;
+            tileArray[i, 1, 1].GetComponent<Renderer>().material = tileSelected;
+            playerPos.y = playerPos.y + 1;
+            PlayerLogic.PrefabCharList[i].GetComponent<Player>().playerCurrentTile = tileArray[i, 1, 1];
+            item.GetComponent<Player>().playerCurrentWaggon = i;
+            PlayerLogic.charList.Add(Instantiate(item.transform.gameObject, playerPos, Quaternion.identity));
+            PlayerLogic.charList[i].GetComponent<Player>().playerCurrentWaggon = i;
+            i++;
         }
-        else
-        {
-            int i = 0;
-            foreach (var item in PlayerLogic.PrefabCharList)
-            {
-                if (item != null)
-                {
-                    Vector3 playerPos = DontDestroy.PlayerTileList[i];
-                    playerPos.y = 1;
-                    PlayerLogic.charList.Add(Instantiate(item.transform.gameObject, playerPos, Quaternion.identity));
-                    PlayerLogic.charList[i].GetComponent<Player>().playerCurrentTile = tileArray[i, DontDestroy.playerTileArrayPosX[i], DontDestroy.playerTileArrayPosY[i]]; ;
-                    PlayerLogic.charList[i].GetComponent<Player>().playerCurrentWaggon = i;
-                    PlayerLogic.charList[i].GetComponent<Player>().playerCurrentTile.GetComponent<Renderer>().material = tileSelected;
-                    i++;
-                }
-            }
-        }
-        DontDestroy.playerTileArrayPosX.Clear();
-        DontDestroy.playerTileArrayPosY.Clear();
-        DontDestroy.PlayerTileList.Clear();
-        PlayerLogic.PrefabCharList.Clear();
-
     }
 
-    void SpawnInteractables()
+    void SpawnItems()
     {
-        foreach (var item in interactObjects)
+        int i = 0;
+        foreach (var item in GameObject.FindGameObjectsWithTag("item"))
         {
-            GameObject instantGo = Instantiate(item.transform.gameObject, tileArray[0, 2, 5].transform.position, Quaternion.identity);
-            tileArray[0, 2, 5].GetComponent<Tile>().isOccupied = true;
-            tileArray[0, 2, 5].GetComponent<Tile>().occupiedObject = instantGo;
-
+            item.GetComponent<Item>().itemID = i;
+            item.transform.position = tileArray[0, 3, 6 + i].transform.position;
+            item.GetComponent<Item>().tile = tileArray[0, 3, 6 + i];
+            tileArray[0, 3, 6 + i].GetComponent<Tile>().isOccupied = true;
+            tileArray[0, 3, 6 + i].GetComponent<Tile>().occupiedObject = item;
+            tileArray[0, 3, 6 + i].GetComponent<Renderer>().material = tileSelected;
+            i++; 
         }
     }
     #endregion 
@@ -124,12 +105,11 @@ public class Map : MonoBehaviour
     {
         PlayerLogic.PrefabCharList.Add(char1);
         PlayerLogic.PrefabCharList.Add(char2);
-        interactObjects.Add(test);
     }
 
     public static GameObject Vector3ToTile(int waggon, int tileArrayPosX, int tileArrayPosY)
     {
-        int adjustedArrayPosY = tileArrayPosY - ((waggon * waggonSizeY) + (1 * waggon));
+        int adjustedArrayPosY = tileArrayPosY - (waggon * waggonSizeY) - (1 * waggon);
         return tileArray[waggon, tileArrayPosX, adjustedArrayPosY];
     }
 }

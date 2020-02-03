@@ -13,11 +13,7 @@ public enum Gamestate
 
 public class DontDestroy : MonoBehaviour
 {
-    public static List<Vector3> PlayerTileList = new List<Vector3>();
-    public static List<int> playerTileArrayPosX = new List<int>();
-    public static List<int> playerTileArrayPosY = new List<int>();
 
-    public static bool newGame = true;
     GameObject logic;
     static DontDestroy instance;
     public static Gamestate CurrentGamestate;

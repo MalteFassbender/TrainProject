@@ -6,12 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class Global : MonoBehaviour // Malte ist ein Hurensohn
 {
+
+    public static Dictionary<string, bool> interactionTypeList = new Dictionary<string, bool>();
     public static bool rightClik = false;
 
     public GameObject gateway;
     public string loadScene;
     public static bool interacted = false;
 
+
+    private void Start()
+    {
+        interactionTypeList.Add("game", false);
+        interactionTypeList.Add("beispiel", false);
+
+    }
     private void Update()
     {
         rightClik = Input.GetMouseButtonDown(1);

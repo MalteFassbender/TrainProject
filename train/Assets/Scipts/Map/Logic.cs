@@ -67,6 +67,7 @@ public class Logic : MonoBehaviour
             int i = 0;
             Vector3Int[] currentTile = new Vector3Int[PlayerLogic.charList.Count];
             int currentplayer;
+            bool[] interactedStates = new bool[Global.interactionTypeList.Count];
 
             foreach (var item in PlayerLogic.charList)
             {
@@ -80,7 +81,7 @@ public class Logic : MonoBehaviour
             currentplayer = PlayerLogic.currentSelectedChar;
 
             SaveGame saveObject = new SaveGame();
-            saveObject.SetValues(currentTile, currentplayer);
+            saveObject.SetValues(currentTile, currentplayer, interactedStates);
             path = Application.dataPath + "/save.json";
             if (File.Exists(path))
             {
@@ -94,11 +95,13 @@ public class SaveGame
 {
     Vector3Int[] currentTile;
     int currentplayer;
+    bool[] interactedStates;
 
-    public void SetValues(Vector3Int[] _currentTile, int _currentplayer)
+    public void SetValues(Vector3Int[] _currentTile, int _currentplayer, bool[] _interactedStates)
     {
         this.currentTile = _currentTile;
         this.currentplayer = _currentplayer;
+        this.interactedStates = _interactedStates;
     }
 
 }

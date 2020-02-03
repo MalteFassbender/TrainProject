@@ -25,31 +25,30 @@ public class PlayerLogic : MonoBehaviour
     // camera stuff //
     public Camera characterCamera;
     float cameraDistance = -11.07f;
-
     //shake
+    public float shakeDuration = 0f;
+    public float shakeAmount = 0.7f;
     public float decreaseFactor = 1.0f;
-    int timeDuration = 0;
     Vector3 originalPos;
-    static float time;
-    float waitSecTime;
-    bool shake = false;
-    bool secondPassed = false;
 
     void Start()
     {
         SetCurrentPlayer(currentSelectedChar);
-        timeDuration = UnityEngine.Random.Range(5, 20);
-        characterCamera.transform.localPosition = new Vector3(cameraDistance, currentPlayer.transform.position.y + 7, currentPlayer.transform.position.z);
     }
 
     void Update()
     {
         SetCurrentPlayer(currentSelectedChar);
-
         if (!SwitchPlayer.playerMenuIsActive && !EscapeMenu.escapeMenuIsActive)
         {
             MovePlayer(currentPlayer);
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            shakeDuration = 1;
+        }
+        CameraController();
+
     }
 
     void SetCurrentPlayer(int currentSelectedChar)
@@ -93,38 +92,22 @@ public class PlayerLogic : MonoBehaviour
         }
     }
 
-
-    void ShakeCamera()
+    void CameraController()
     {
-        time += Time.deltaTime;
-        if (!shake)
+        //https://gist.github.com/ftvs/5822103
+        originalPos = new Vector3(cameraDistance, currentPlayer.transform.position.y + 7, currentPlayer.transform.position.z);
+        if (shakeDuration > 0)
         {
-            characterCamera.transform.localPosition = new Vector3(cameraDistance, currentPlayer.transform.position.y + 7, currentPlayer.transform.position.z);
+            characterCamera.transform.localPosition = originalPos + UnityEngine.Random.insideUnitSphere * shakeAmount;
+            shakeDuration -= Time.deltaTime * decreaseFactor;
         }
-
-        if (time > timeDuration && !shake)
+        else
         {
-            shake = true;
-            secondPassed = false;
-            waitSecTime = time + 2;
-            timeDuration = UnityEngine.Random.Range(5, 20);
-            originalPos = new Vector3(cameraDistance, currentPlayer.transform.position.y + 7, currentPlayer.transform.position.z);
-        }
-
-        if (shake && time > waitSecTime)
-        {
-            secondPassed = true;
-            shake = false;
-            time = 0;
+            shakeDuration = 0f;
             characterCamera.transform.localPosition = originalPos;
         }
 
-        if (shake && !secondPassed)
-        {
-            characterCamera.transform.localPosition = originalPos + UnityEngine.Random.insideUnitSphere * 0.08f;
-        }
     }
-
     #endregion
 
     #region Pathfinding

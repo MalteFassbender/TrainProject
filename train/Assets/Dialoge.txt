@@ -1,7 +1,1 @@
-Hey
-<<<<<<< HEAD
-Hey2
-=======
-Hey2
-E
->>>>>>> master
+Hey, dieser Text ist nur ein Test.

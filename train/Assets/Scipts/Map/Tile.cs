@@ -22,6 +22,7 @@ public class Tile : MonoBehaviour {
 
     public Material currentMaterial;
 
+
     void OnMouseEnter()
     {
         currentMaterial = this.GetComponent<Renderer>().material;

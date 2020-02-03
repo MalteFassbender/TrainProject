@@ -5,20 +5,42 @@ using UnityEngine.UI;
 using System.IO;
 public class DialogManager : MonoBehaviour
 {
-    bool isTalking = false;
-    public Text dialog;
+    static bool isTalking = false;
+    public Text textPrefab;
+    public Text namesPrefab;
+    static Text dialog;
+    static Text name;
     string dialogFileName = "Dialoge.txt";
-    string path;
-    int lineNumber;
+    static string path;
+    static int lineNumber;
+    public GameObject panel;
+    Vector3 dialogPos;
+    Vector3 namePos;
     private void Start()
     {
+        CreateText();
         path = Path.Combine(Application.dataPath, dialogFileName);
     }
     void Update()
     {
-        Dialoge();
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            panel.SetActive(true);
+        }
+        Dialoge(0,"TestName");
     }
-    void Dialoge()
+    void CreateText()
+    {
+            dialogPos = new Vector3(-0.5f,0.5f,0);
+            dialog = Instantiate(textPrefab);
+            dialog.transform.SetParent(panel.transform);
+            dialog.transform.localPosition = dialogPos;  
+            namePos = new Vector3(-3,1.5f,0);
+            name = Instantiate(namesPrefab);
+            name.transform.SetParent(panel.transform);
+            name.transform.localPosition = namePos;       
+    }
+    public static void Dialoge(int lineNumber, string characterName)
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -26,8 +48,8 @@ public class DialogManager : MonoBehaviour
         }
         if (isTalking)
         {
-            lineNumber = 0;
-            string[] lines = System.IO.File.ReadAllLines(path);
+            name.text = characterName;
+            string[] lines = File.ReadAllLines(path);
             dialog.text = lines[lineNumber];
         }
     }

@@ -4,16 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class LoadScene : MonoBehaviour
-{
+public class LoadScene : MonoBehaviour {
 
-    public GameObject gateway; //Objekt mit OnTrigger und Collider, wenn Spieler sich hineinbewegt und L drückt wechselt die Szene 
+	public GameObject gateway; //Objekt mit OnTrigger und Collider, wenn Spieler sich hineinbewegt und L drückt wechselt die Szene 
     public string loadScene;
 
-    void Start()
+	void Start ()
     {
         gateway.SetActive(false);
-    }
+	}
 
     private void OnTriggerStay(Collider other)
     {
