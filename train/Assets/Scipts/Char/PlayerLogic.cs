@@ -37,7 +37,7 @@ public class PlayerLogic : MonoBehaviour
 
     void Start()
     {
-        timeDuration = UnityEngine.Random.Range(15, 50);
+        timeDuration = UnityEngine.Random.Range(20, 50);
         SetCurrentPlayer(currentSelectedChar);
     }
 
@@ -122,6 +122,7 @@ public class PlayerLogic : MonoBehaviour
         if (shake && !secondPassed)
         {
             characterCamera.transform.localPosition = originalPos + UnityEngine.Random.insideUnitSphere * 0.08f;
+            characterCamera.transform.localPosition = originalPos;
         }
     }
     #endregion

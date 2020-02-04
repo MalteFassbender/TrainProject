@@ -25,32 +25,24 @@ public class DialogManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            panel.SetActive(true);
+            Dialoge(0, "Durchsage vom Zugführer");
         }
-        Dialoge(0,"TestName");
     }
     void CreateText()
     {
-            dialogPos = new Vector3(-0.5f,0.5f,0);
-            dialog = Instantiate(textPrefab);
-            dialog.transform.SetParent(panel.transform);
-            dialog.transform.localPosition = dialogPos;  
-            namePos = new Vector3(-3,1.5f,0);
-            name = Instantiate(namesPrefab);
-            name.transform.SetParent(panel.transform);
-            name.transform.localPosition = namePos;       
+        dialogPos = new Vector3(-600, 300, 0);
+        dialog = Instantiate(textPrefab);
+        dialog.transform.SetParent(panel.transform);
+        dialog.transform.localPosition = dialogPos;
+        namePos = new Vector3(-600, 400, 0);
+        name = Instantiate(namesPrefab);
+        name.transform.SetParent(panel.transform);
+        name.transform.localPosition = namePos;
     }
     public static void Dialoge(int lineNumber, string characterName)
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            isTalking = true;
-        }
-        if (isTalking)
-        {
-            name.text = characterName;
-            string[] lines = File.ReadAllLines(path);
-            dialog.text = lines[lineNumber];
-        }
+        name.text = characterName;
+        string[] lines = File.ReadAllLines(path);
+        dialog.text = lines[lineNumber];
     }
 }
